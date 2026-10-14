@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <title>FinFuture Simulator — личные финансы</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="FinFuture главная">
+        <span class="brand-mark">F</span>
+        <span>FinFuture<span class="brand-sub">SIMULATOR</span></span>
+      </a>
+      <div class="nav-label">РАБОЧЕЕ ПРОСТРАНСТВО</div>
+      <nav class="nav-links">
+        <a class="nav-link active" href="#overview"><span>◫</span> Обзор</a>
+        <a class="nav-link" href="#transactions"><span>⇄</span> Операции</a>
+        <a class="nav-link" href="#goals"><span>◎</span> Цели накопления</a>
+        <a class="nav-link" href="#analytics"><span>▥</span> Аналитика</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tip-card">
+          <div class="tip-icon">✦</div>
+          <strong>Маленькие шаги — большие цели</strong>
+          <p>Регулярно отслеживай расходы и приближайся к финансовым целям.</p>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button"><span id="themeIcon">☾</span><span id="themeText">Тёмная тема</span></button>
+        <div class="profile-row"><div class="avatar">M</div><div><strong>Мой бюджет</strong><small>Личный кабинет</small></div><span class="online-dot"></span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><div class="eyebrow">ЛИЧНЫЕ ФИНАНСЫ / 2026</div><h1>Финансовый обзор</h1><p class="muted">Контролируй деньги. Планируй будущее.</p></div>
+        <button class="primary-btn" id="openTransactionBtn" type="button"><span>＋</span> Добавить операцию</button>
+      </header>
+
+      <section id="overview">
+        <div class="section-heading"><div><h2>Твоя финансовая картина</h2><p class="muted">Сводка по всем операциям и целям</p></div>
+          <label class="period-select">Период
+            <select id="periodFilter" aria-label="Выбрать период">
+              <option value="all">За всё время</option><option value="week">Последние 7 дней</option><option value="month" selected>Текущий месяц</option><option value="year">Текущий год</option>
+            </select>
+          </label>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card balance-card"><div class="stat-top"><span>Общий баланс</span><span class="stat-icon">◈</span></div><div class="stat-value" id="balanceValue">0 сом</div><div class="stat-foot"><span class="status-pill">● Текущий баланс</span><span class="muted">Все операции</span></div><div class="balance-decoration"></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Доходы</span><span class="stat-icon green">↗</span></div><div class="stat-value" id="incomeValue">0 сом</div><div class="stat-foot"><span class="positive">↑ Поступления</span><span class="muted" id="incomeCount">0 операций</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Расходы</span><span class="stat-icon red">↘</span></div><div class="stat-value" id="expensesValue">0 сом</div><div class="stat-foot"><span class="negative">↓ Списания</span><span class="muted" id="expenseCount">0 операций</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Накопления по целям</span><span class="stat-icon violet">◎</span></div><div class="stat-value" id="savingsValue">0 сом</div><div class="stat-foot"><span class="positive">Целевой капитал</span><span class="muted" id="goalCount">0 целей</span></div></article>
+        </div>
+      </section>
+
+      <section class="content-grid" id="analytics">
+        <article class="panel chart-panel">
+          <div class="panel-heading"><div><h2>Доходы и расходы</h2><p class="muted">Сравнение за выбранный период</p></div><span class="chart-legend"><i class="legend-income"></i> Доходы <i class="legend-expense"></i> Расходы</span></div>
+          <div class="comparison-chart" id="comparisonChart"><div class="empty-state">Добавь операции, чтобы увидеть аналитику</div></div>
+          <div class="chart-summary"><div><span class="summary-dot income-dot"></span><span class="muted">Доходы</span><strong id="chartIncome">0 сом</strong></div><div><span class="summary-dot expense-dot"></span><span class="muted">Расходы</span><strong id="chartExpenses">0 сом</strong></div></div>
+        </article>
+        <article class="panel spending-panel">
+          <div class="panel-heading"><div><h2>Расходы по категориям</h2><p class="muted">Структура расходов</p></div><span class="more-icon">•••</span></div>
+          <div id="categoryChart" class="category-chart"><div class="empty-state">Пока нет расходов</div></div>
+          <div class="budget-block"><div class="budget-title"><span>Использовано бюджета</span><strong id="budgetPercent">0%</strong></div><div class="progress-track"><div id="budgetProgress" class="progress-fill"></div></div><div class="budget-caption"><span id="budgetSpent">0 сом потрачено</span><span id="budgetLimitLabel">Лимит не задан</span></div></div>
+          <div class="limit-form"><label for="budgetLimit">Месячный лимит, сом</label><div class="inline-form"><input type="number" id="budgetLimit" min="0" step="100" placeholder="Например, 15000"><button id="saveLimitBtn" class="small-btn" type="button">Сохранить</button></div></div>
+          <p id="budgetWarning" class="warning-text" role="status"></p>
+        </article>
+      </section>
+
+      <section class="panel transactions-panel" id="transactions">
+        <div class="panel-heading transaction-heading"><div><h2>Последние операции</h2><p class="muted">Все движения твоих средств</p></div><button id="exportBtn" class="secondary-btn" type="button">⇩ Экспорт CSV</button></div>
+        <div class="filters-row"><div class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Поиск по категории или описанию…"></div><div class="date-filter"><label for="dateFrom">С</label><input id="dateFrom" type="date"><label for="dateTo">По</label><input id="dateTo" type="date"></div><button id="clearFiltersBtn" class="text-btn" type="button">Сбросить</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Операция</th><th>Категория</th><th>Дата</th><th>Тип</th><th class="align-right">Сумма</th><th></th></tr></thead><tbody id="transactionsBody"></tbody></table><div id="transactionsEmpty" class="empty-state">Операций пока нет. Добавь первую запись.</div></div>
+        <div class="table-footer"><span id="transactionSummary">Показано 0 операций</span><span>Данные хранятся в этом браузере</span></div>
+      </section>
+
+      <section class="panel goals-panel" id="goals">
+        <div class="panel-heading"><div><h2>Цели накопления</h2><p class="muted">Превращай планы в реальные результаты</p></div><button class="secondary-btn" id="openGoalBtn" type="button">＋ Новая цель</button></div>
+        <div id="goalsGrid" class="goals-grid"><div class="empty-state">Создай первую цель, например «Новый компьютер»</div></div>
+      </section>
+      <footer class="footer"><span>© 2026 FinFuture Simulator</span><span>Создано для разумного управления финансами <span class="footer-star">✦</span></span></footer>
+    </main>
+  </div>
+
+  <dialog id="transactionDialog" class="modal">
+    <form id="transactionForm" method="dialog">
+      <div class="modal-heading"><div><div class="eyebrow">ФИНАНСОВЫЙ УЧЁТ</div><h2>Новая операция</h2></div><button class="close-btn" type="button" data-close="transactionDialog">×</button></div>
+      <div class="type-switch"><label><input type="radio" name="type" value="income" checked><span>↗ Доход</span></label><label><input type="radio" name="type" value="expense"><span>↘ Расход</span></label></div>
+      <label class="field-label" for="transactionTitle">Название операции</label><input id="transactionTitle" name="title" required maxlength="70" placeholder="Например, Зарплата или Продукты">
+      <div class="form-two"><div><label class="field-label" for="transactionAmount">Сумма, сом</label><input id="transactionAmount" name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00"></div><div><label class="field-label" for="transactionCategory">Категория</label><select id="transactionCategory" name="category" required><option value="Зарплата">Зарплата</option><option value="Подработка">Подработка</option><option value="Подарки">Подарки</option><option value="Продукты">Продукты</option><option value="Транспорт">Транспорт</option><option value="Жильё">Жильё</option><option value="Учёба">Учёба</option><option value="Развлечения">Развлечения</option><option value="Здоровье">Здоровье</option><option value="Покупки">Покупки</option><option value="Другое">Другое</option></select></div></div>
+      <label class="field-label" for="transactionDate">Дата</label><input id="transactionDate" name="date" type="date" required>
+      <div class="modal-actions"><button class="secondary-btn" type="button" data-close="transactionDialog">Отмена</button><button class="primary-btn" type="submit">Сохранить операцию</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="goalDialog" class="modal">
+    <form id="goalForm" method="dialog">
+      <div class="modal-heading"><div><div class="eyebrow">ПЛАНИРОВАНИЕ</div><h2>Новая цель</h2></div><button class="close-btn" type="button" data-close="goalDialog">×</button></div>
+      <label class="field-label" for="goalName">Название цели</label><input id="goalName" name="name" required maxlength="70" placeholder="Например, Новый компьютер">
+      <div class="form-two"><div><label class="field-label" for="goalTarget">Нужно накопить, сом</label><input id="goalTarget" name="target" type="number" min="1" step="1" required placeholder="100000"></div><div><label class="field-label" for="goalSaved">Уже накоплено, сом</label><input id="goalSaved" name="saved" type="number" min="0" step="1" value="0" required></div></div>
+      <label class="field-label" for="goalMonthly">Ежемесячный взнос, сом</label><input id="goalMonthly" name="monthly" type="number" min="0" step="1" value="0" required>
+      <div class="modal-actions"><button class="secondary-btn" type="button" data-close="goalDialog">Отмена</button><button class="primary-btn" type="submit">Создать цель</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
